@@ -1,0 +1,52 @@
+[package]
+name = "crypto-number-theory"
+version = "0.1.0"
+edition = "2021"
+authors = ["Clubs lancetesou@gmail.com"]
+license = "Apache-2.0"
+description = "A number theory library for cryptographic applications"
+
+# Performance optimization settings
+[profile.release]
+opt-level = 3              # Maximum optimization
+lto = true                 # Link-Time Optimization - slower build, faster runtime
+codegen-units = 1          # Better optimization, slower compile
+panic = "abort"            # Smaller binary, no stack unwinding
+
+# Development profile with some optimization (faster testing)
+[profile.dev]
+opt-level = 1              # Some optimization for reasonable performance
+
+# Separate profile for benchmarking
+[profile.bench]
+inherits = "release"
+debug = true              
+
+[dependencies]
+# No dependencies for Phase 1! We're building from scratch
+# This teaches fundamentals without relying on existing crypto libraries
+
+[dev-dependencies]
+# Testing framework - more powerful than built-in tests
+criterion = { version = "0.5", features = ["html_reports"] }
+# Property-based testing - generates random test cases
+proptest = "1.4"
+# Test utilities
+rand = "0.8"
+
+# Optional: For comparing against reference implementations later
+# num-bigint = "0.4"  # Uncomment when ready to validate
+# crypto-bigint = "0.5"  # Uncomment for Phase 1.2
+
+# Benchmarking setup
+[[bench]]
+name = "modular_arithmetic"
+harness = false  # Use criterion instead of built-in bench
+
+[[bench]]
+name = "gcd"
+harness = false
+
+[[bench]]
+name = "prime_testing"
+harness = false
